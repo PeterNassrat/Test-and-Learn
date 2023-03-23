@@ -88,7 +88,32 @@ public class SkipList<K extends Comparable<? super K>, V>
      */
     @SuppressWarnings("unchecked")
     public void insert(KVPair<K, V> it) {
+        if(it == null)return;
+		int newLevel = randomLevel();
 
+		if (newLevel > head.level) {
+			adjustHead(newLevel);
+		}
+
+		SkipNode[] update = (SkipNode[]) Array.newInstance(SkipList.SkipNode.class, head.level + 1);
+		// SkipList<K, V>.SkipNode[] update = new SkipList.SkipNode[head.level + 1];
+		SkipNode x = head;
+
+		for (int i = head.level; i >= 0; i--) {
+			while (x.forward[i] != null && x.forward[i].element().compareTo(it) < 0) {
+				x = x.forward[i];
+			}
+			update[i] = x;
+		}
+
+		SkipNode newNode = new SkipNode(it, newLevel);
+
+		for (int i = 0; i <= newLevel; i++) {
+			newNode.forward[i] = update[i].forward[i];
+			update[i].forward[i] = newNode;
+		}
+
+		size++;
     }
 
 
