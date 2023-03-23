@@ -159,7 +159,38 @@ public class SkipList<K extends Comparable<? super K>, V>
      * @return returns true if the removal was successful
      */
     public KVPair<K, V> removeByValue(V val) {
-        return null;
+        if(val == null)return null;
+		
+		SkipNode x = head;
+
+		while (x.forward[0] != null && x.forward[0].element().getValue().equals(val) != true) {
+			x = x.forward[0];
+		}
+
+		if (x.forward[0] != null) {
+
+			SkipNode target = x.forward[0];
+			SkipNode[] update = (SkipNode[]) Array.newInstance(SkipList.SkipNode.class, target.level + 1);
+			// SkipList<K, V>.SkipNode[] update = new SkipList.SkipNode[head.level + 1];
+			x = head;
+
+			for (int i = target.level; i >= 0; i--) {
+				while (x.forward[i] != null && x.forward[i].equals(target) != true) {
+					x = x.forward[i];
+				}
+				update[i] = x;
+			}
+			x = x.forward[0];
+			for (int i = 0; i <= target.level; i++) {
+				update[i].forward[i] = x.forward[i];
+			}
+
+			size--;
+			return x.element();
+
+		} else {
+			return null;
+		}
     }
 
 
