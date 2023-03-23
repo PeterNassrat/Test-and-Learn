@@ -52,7 +52,22 @@ public class SkipList<K extends Comparable<? super K>, V>
      *            key to be searched for
      */
     public ArrayList<KVPair<K, V>> search(K key) {
-        return null;
+        ArrayList<KVPair<K, V>> searchArray = new ArrayList<KVPair<K, V>>();
+		if(key == null)return searchArray;
+		
+		SkipNode x = head;
+		for (int i = head.level; i >= 0; i--) {
+			while (x.forward[i] != null && x.forward[i].element().getKey().compareTo(key) < 0) {
+				x = x.forward[i];
+			}
+		}
+
+		while (x.forward[0] != null && x.forward[0].element().getKey().compareTo(key) == 0) {
+			searchArray.add(x.forward[0].element());
+			x = x.forward[0];
+		}
+
+		return searchArray;
     }
 
 
