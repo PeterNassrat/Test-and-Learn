@@ -126,7 +126,12 @@ public class SkipList<K extends Comparable<? super K>, V>
      */
     @SuppressWarnings("unchecked")
     private void adjustHead(int newLevel) {
+        SkipNode temp = head;
+		head = new SkipNode(null, newLevel);
 
+		for (int i = 0; i <= temp.level; i++) {
+			head.forward[i] = temp.forward[i];
+		}
     }
 
 
