@@ -14,12 +14,12 @@ class DatabaseTest {
 		//ToDo
 	}
   
-  @Test
+  	@Test
 	void removeTest03() {
 		//ToDo
 	}
   
-  @Test
+  	@Test
 	void insertTest01() {
 		//ToDo
 	}
